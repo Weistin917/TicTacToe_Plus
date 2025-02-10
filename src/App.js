@@ -1,6 +1,8 @@
 import { useState } from "react";
 
+/* function for each individual square */
 function Square({ value, onSquareClick, highlight }) {
+  // check if this square needs to be highlighted
   const bg = highlight ? "#bbff33" : "#fff";
   return (
     <button
@@ -13,7 +15,9 @@ function Square({ value, onSquareClick, highlight }) {
   );
 }
 
+/* function for the game board; renders the 9 squares and the state of the game */
 function Board({ xIsNext, squares, onPlay, selectedTile }) {
+  // function called each time a click occurs
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
       return;
@@ -93,14 +97,26 @@ function Board({ xIsNext, squares, onPlay, selectedTile }) {
   );
 }
 
+/* function that represents the game; renders the Board and the game history */
 export default function Game() {
+  /* States
+   * history: stores the moves' history
+   * currentMove: stores the index for the current move
+   * selectedTile: stores the history of selected tiles
+   */
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const [selectedTile, setSelectedTile] = useState([-1]);
+  /* Constants
+   * xIsNext: boolean indicating if the next symbol is X
+   * currentSquares: the current state of the board
+   * currentTile: the last tile selected
+   */
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
   const currentTile = selectedTile[currentMove];
 
+  // function that updates the game history and selected tiles' history after a play
   function handlePlay(nextSquares, nextTile) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     const nextSelectedTile = [
@@ -112,6 +128,7 @@ export default function Game() {
     setCurrentMove(nextHistory.length - 1);
   }
 
+  // function to jump to another move
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
   }
@@ -147,6 +164,7 @@ export default function Game() {
   );
 }
 
+/* function that calculates the winner based on the current state of the board */
 function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
