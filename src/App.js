@@ -3,7 +3,7 @@ import { useState } from "react";
 /* function for each individual square */
 function Square({ value, onSquareClick, highlight }) {
   // check if this square needs to be highlighted
-  const bg = highlight ? "#bbff33" : "#fff";
+  const bg = highlight ? "#bbff33" : "";
   return (
     <button
       className="square"
@@ -41,8 +41,8 @@ function Board({ xIsNext, squares, onPlay, selectedTile }) {
 
   return (
     <>
-      <div className="status">{status}</div>
-      <div className="board-row">
+      <h4 className="status">{status}</h4>
+      <div className="row board-row justify-content-center">
         <Square
           value={squares[0]}
           onSquareClick={() => handleClick(0)}
@@ -59,7 +59,7 @@ function Board({ xIsNext, squares, onPlay, selectedTile }) {
           highlight={selectedTile === 2}
         />
       </div>
-      <div className="board-row">
+      <div className="row board-row justify-content-center">
         <Square
           value={squares[3]}
           onSquareClick={() => handleClick(3)}
@@ -76,7 +76,7 @@ function Board({ xIsNext, squares, onPlay, selectedTile }) {
           highlight={selectedTile === 5}
         />
       </div>
-      <div className="board-row">
+      <div className="row board-row justify-content-center">
         <Square
           value={squares[6]}
           onSquareClick={() => handleClick(6)}
@@ -142,25 +142,40 @@ export default function Game() {
     }
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        <button
+          className="btn btn-primary btn-block"
+          onClick={() => jumpTo(move)}
+        >
+          {description}
+        </button>
       </li>
     );
   });
 
   return (
-    <div className="game">
-      <div className="game-board">
-        <Board
-          xIsNext={xIsNext}
-          squares={currentSquares}
-          onPlay={handlePlay}
-          selectedTile={currentTile}
-        />
+    <>
+      <div className="container-fluid game">
+        <div
+          className="row justify-content-center"
+          style={{ width: 100 + "%", height: "auto" }}
+        >
+          <div className="col-md-8">
+            <h1 className="game-title">Tic Tac Toe Plus</h1>
+            <div className="game-board">
+              <Board
+                xIsNext={xIsNext}
+                squares={currentSquares}
+                onPlay={handlePlay}
+                selectedTile={currentTile}
+              />
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="game-info">
-        <ol>{moves}</ol>
+      <div className="container game-info">
+        <ol className="center">{moves}</ol>
       </div>
-    </div>
+    </>
   );
 }
 
